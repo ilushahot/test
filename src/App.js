@@ -1,79 +1,48 @@
 import React, {Component} from "react"
-import './App.css';
 import {Header} from "./Header/Header";
-import {Searchbar} from "./Searchbar/Searchbar";
-import {Repositories} from "./Repositories/Repositories";
+import {Table} from "./Table/Table";
+import {Row} from "./Row/Row";
+import {v4 as uuid} from "uuid";
+import './App.css';
 
 export class App extends Component {
     constructor() {
         super();
+        this.state = {
+            isLoaded: false,
+            events: []
+        }
     }
-
+    componentDidMount(index) {
+        fetch("https://api.github.com/events")
+        .then(res => res.json())
+        .then (
+            (result) => {
+                console.log(result)
+                this.setState({
+                    isLoaded: true,
+                    events: result
+                });
+            }
+        )
+    }
     render() {
-        return (
-            <div>
-                <div>
-                    <Header />
-                </div>
-                <div>
-                    <Searchbar />
-                </div>
-                <div>
-                    <Repositories />
-                </div>
-            </div>
-        );
+        if (!this.state.isLoaded) {
+            return <p>Loading...</p>
+        }
+        else {
+            return (
+                <Table className={"column"}>
+                    <Header/>
+                    {
+                        this.state.events.map(event=>{
+                            return (<div key={uuid()}>
+                                <Row event={event} />
+                            </div>)
+                        })
+                    }
+                </Table>
+            );
+        }
     }
 }
-
-
-
-// export class App extends Component {
-//     constructor(props) {
-//         super(props);
-//         this.state = {
-//             error: null,
-//             isLoaded: false,
-//             items: []
-//         }
-//     }
-//     componentDidMount() {
-//         fetch("https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Cocktail")
-//             .then(res => res.json())
-//             .then (
-//                 (result) => {
-//                     this.setState({
-//                         isLoaded: true,
-//                         items: result.drinks
-//                     });
-//                 },
-//                 (error) => {
-//                     this.setState({
-//                         isLoaded: true,
-//                         error
-//                     })
-//                 }
-//             )
-//     }
-//
-//     render() {
-//        const {error, isLoaded, items} = this.state;
-//        if (error) {
-//            return <p>Error {error.massage}</p>
-//        }
-//        else if (!isLoaded) {
-//            return <p>Loading...</p>
-//        }
-//        else {
-//            return (
-//                <ul>
-//                    {items.map(item =>(
-//                        <li key={item.name}>
-//                            {item.strDrink}
-//                        </li>
-//                    ))}
-//                </ul>
-//            )
-//        }
-//     }
-// }
