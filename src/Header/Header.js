@@ -25,7 +25,6 @@ export class Header extends Component {
                            ref={this.clearRef}
                            onChange={this.search}
                     />
-                    <input type="submit" value={"Search"} className={"search-input"} onClick={this.search}/>
                     <input type="submit" value={"Clear"} className={"clear"} onClick={this.clearOnClick}/>
                 </div>
             </div>
