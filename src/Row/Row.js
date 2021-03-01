@@ -6,25 +6,18 @@ export class Row extends Component {
         let {event, index} = this.props;
         let {id, date, repo} = event;
         return <div className={this.props.className} style={this.props.style}>
-                <div className="column row-list">
-                    <p>
-                        # {index}
-                        <br/>
-                        id : {id}
-                        <br/>
-                        date: {date}
-                        <br/>
-                        repo url: {repo.url}
-                    </p>
-                </div>
-            </div>;
+            <div className="column row-list">
+                <p>
+                    # {index}
+                    <br/>
+                    id : {id}
+                    <br/>
+                    date: {date}
+                    <br/>
+                    repo url: {repo.url}
+                </p>
+            </div>
+        </div>;
     }
 }
-
-/*
-* todo
-*  1. нумерация
-*  2. на поиск. кнопку ивент по клику - поиск. ПОиск будет допустим по имени репозитория. Если не сможешь сам то оставь функцию пустышку я покажу
-*  3. стили
-* */
 

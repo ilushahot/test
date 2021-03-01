@@ -6,26 +6,34 @@ export class Header extends Component {
         super(props);
         this.clearRef = React.createRef()
         this.clearOnClick = this.clearOnClick.bind(this)
+        this.search = this.search.bind(this)
+    }
+
+    search(e) {
+        this.props.search(e.target.value)
     }
 
     render() {
+
         return (
             <div className={"header-wrapper"}>
                 <label className={"header-search"}> Github repositories </label>
-                <div className={"searchbar-search"}>
-                    <input type="text" placeholder={"Find a repository"} className={"rep-name"}/>
-                    <input type="submit" value={"Search"} className={"search-input"}/>
-                    <input type="submit" value={"Clear"} className={"clear"} ref={this.clearRef} onClick={this.clearOnClick}/>
+                <div>
+                    <input type="text"
+                           placeholder={"Find a repository"}
+                           className={"rep-name"}
+                           ref={this.clearRef}
+                           onChange={this.search}
+                    />
+                    <input type="submit" value={"Search"} className={"search-input"} onClick={this.search}/>
+                    <input type="submit" value={"Clear"} className={"clear"} onClick={this.clearOnClick}/>
                 </div>
             </div>
         );
     }
+
     clearOnClick() {
-        if (this.clearRef.current !== "") {
-            let clear = this.clearRef
-            this.setState({
-                clear: ""
-            })
-        }
-        }
+        this.clearRef.current.value = ""
+        this.props.search()
+    }
 }
